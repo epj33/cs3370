@@ -8,6 +8,12 @@ assn1: portsetter
 
 using namespace std;
 
-int main() {
+/**********************************************************
+ * input params:
+ * 
+ * output expected:
+ * 
+**********************************************************/
+int main(int argc, char *args[]) {
     cout << "Hello World!" << endl;
 }//end fx main
