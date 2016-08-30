@@ -1,0 +1,28 @@
+cs3370 daily notes
+fall 2017
+david wagstaff = david.wagstaff@gmail.com
+
+08-23-2016
+
+who - wrote some early command line utilities
+why - req.  money, marble, or chalk
+what - bg= realworld. academia = 1yr
+	1st hw is as you would receive in real world
+cloud9 for first couple assn.. user=horsefeathers
+his style = most are standard, some unique
+	explicitly define precedence with parens
+	coding is worm=write once read many
+	use what gives best clarity
+	if () and for () not if() and for()
+	declare vars when needed
+	1. get working
+	2. get correct
+	3. get fast
+
+get cloud9 account and do helloWorld-
+
+
+08-25-2016
+
+
+end
