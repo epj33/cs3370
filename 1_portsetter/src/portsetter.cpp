@@ -12,18 +12,24 @@ use echo $? to show exit code.
 using namespace std;
 
 void usage(){
-    cout << "Usage: portsetter <flag> <portnumber>" << endl;
+    cout << "Usage: portsetter [flag] [portNumber]" << endl;
+    cout << "example: portsetter -p 2345" << endl;
     cout << "Shows port number for listening.\n" << endl;
-    cout << "Return codes:" << endl;
-    cout << "0 : success." << endl;
-    cout << "1 : too many arguments" << endl;
-    cout << "2 : invalid port number passed" << endl;
-    cout << "3 : invalid flag passed" << endl;
+    cout << "Possible flags:" << endl;
+    cout << " -h,    --help      shows this help screen and exits" << endl;
+    cout << " -p,    --port      show port for listening (more to come in phase 2?)\n" << endl;
+    cout << "Possible portNumbers:" << endl;
+    cout << " 1 - 65536 inclusive\n" << endl;
+    cout << "Exit code:" << endl;
+    cout << " 0 : success." << endl;
+    cout << " 1 : too many arguments" << endl;
+    cout << " 2 : invalid portNumber passed / portNumber missing" << endl;
+    cout << " 3 : invalid flag passed" << endl;
 }//end fx usage
 
 
 /**********************************************************
- * input params:    -h, --h
+ * input params:    -h, --help
  *                  -p <portNumber>, --port <portNumber>
  * 
  * output expected: "listening on port <portFromCmdLine>"
@@ -44,10 +50,13 @@ int main(int argc, char *args[]) {
         usage();
         return 0;
     }else if (theFlag == "-p" || theFlag == "--port"){
-        //theFlag = args[1];
+        if (argc == 2){
+            usage();
+            return 2;
+        }
         int thePort = atoi(args[2]);
         if (thePort > 0 && thePort < 65537){
-            cout << "listening on a port " << args[2] << endl;
+            cout << "listening on port " << args[2] << endl;
             return 0;
         }else{
             usage();
