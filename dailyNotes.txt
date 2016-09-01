@@ -24,5 +24,51 @@ get cloud9 account and do helloWorld-
 
 08-25-2016
 
+foo.cpp ->pre-compiler/pre-processor
+temp foo.cpp ->compiler
+foo machine code (for intel etc.)
+linker-> adds in loader code (os specific)
+foo executable
+
+regex vs. globbing
+on win must load in globbing code to get file globbing
+
+globbing:
+	os specific
+	
+	
+08-30-2016
+
+assn1: gather reqs.
+do: set the port
+so call prog portsetter all lower
+phases:
+	1: print msg saying listening on port x what user specifies as cmd line arg -p for setting port num --port <number>
+		no default port. no params gives usage screen. 
+		error print error message, print usage, return non-zero and comment in code why. 2^16=65k ports
+		success returns 0 also if no params do this. this is not an error.
+		req: another way to get help -h or --help is success, prints out usage screen
+		google doc for req doc. get link and paste link
+		for code , just turn in .cpp
+		req doc: english words
+			program mut print out usage screen and return 0 on no params
+			in a comment on the page give a link to the google doc as turn in.
+			will do above if -h or --help
+			
+			sad path and happy path testing and on req docs. show both on req docs.
+			code happy path first, then sad.
+			sad: "first arg must start with  a dash"
+				"usage..."
+				return non-0
+				"invalid flag"
+				usage
+				return
+		make a usage() method. returns nothing. just print.
+			make usage its own file so can be passed off to someone else.
+		"put it on the stack, so you can stay on track"	
+	2: 
+	
+
+
 
 end
