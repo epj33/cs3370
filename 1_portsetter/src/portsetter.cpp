@@ -46,17 +46,31 @@ int main(int argc, char *args[]) {
     }
     string theFlag = args[1];
     if (theFlag.compare("-h") == 0 || theFlag.compare("--help") == 0){
-        usage();
-        return 0;
+        if (argc == 2){
+            usage();
+            return 0;
+        }else{
+            usage();
+            return 1;
+        }
     }else if (theFlag.compare("-p") == 0 || theFlag.compare("--port") == 0){
         if (argc == 2){
             usage();
             return 2;
         }
+        int thePortArgSize = strlen(args[2]);
         int thePort = atoi(args[2]);
-        if (thePort > 0 && thePort < 65537){
-            cout << "listening on port " << thePort << endl;
-            return 0;
+        int thePortToUse = atoi(args[2]);
+        int thePortSize;
+        for (thePortSize=0; thePort > 0; ++thePortSize) thePort /= 10;
+        if (thePortToUse > 0 && thePortToUse < 65537 && thePortSize == thePortArgSize){
+            if (argc == 3){
+                cout << "listening on port " << thePortToUse << endl;
+                return 0;
+            }else{
+                usage();
+                return 1;
+            }
         }else{
             usage();
             return 2;
