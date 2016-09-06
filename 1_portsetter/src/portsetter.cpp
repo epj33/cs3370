@@ -17,14 +17,14 @@ void usage(){
     cout << "Shows port number for listening.\n" << endl;
     cout << "Possible flags:" << endl;
     cout << " -h,    --help      shows this help screen and exits" << endl;
-    cout << " -p,    --port      show port for listening (more to come in phase 2?)\n" << endl;
+    cout << " -p,    --port      shows port for listening (more to come in phase 2?)\n" << endl;
     cout << "Possible portNumbers:" << endl;
     cout << " 1 - 65536 inclusive\n" << endl;
     cout << "Exit code:" << endl;
     cout << " 0 : success." << endl;
-    cout << " 1 : too many arguments" << endl;
-    cout << " 2 : invalid portNumber passed / portNumber missing" << endl;
-    cout << " 3 : invalid flag passed" << endl;
+    cout << " 1 : too many arguments." << endl;
+    cout << " 2 : invalid portNumber passed / portNumber missing." << endl;
+    cout << " 3 : invalid flag passed." << endl;
 }//end fx usage
 
 
@@ -36,7 +36,6 @@ void usage(){
  * 
 **********************************************************/
 int main(int argc, char *args[]) {
-    //cout << args[1] << endl;
     if (argc == 1){
         usage();
         return 0;
@@ -56,7 +55,7 @@ int main(int argc, char *args[]) {
         }
         int thePort = atoi(args[2]);
         if (thePort > 0 && thePort < 65537){
-            cout << "listening on port " << args[2] << endl;
+            cout << "listening on port " << thePort << endl;
             return 0;
         }else{
             usage();
@@ -66,5 +65,4 @@ int main(int argc, char *args[]) {
         usage();
         return 3;
     }
-    
 }//end fx main
