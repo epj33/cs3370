@@ -45,10 +45,10 @@ int main(int argc, char *args[]) {
         return 1;
     }
     string theFlag = args[1];
-    if (theFlag == "-h" || theFlag == "--help"){
+    if (theFlag.compare("-h") == 0 || theFlag.compare("--help") == 0){
         usage();
         return 0;
-    }else if (theFlag == "-p" || theFlag == "--port"){
+    }else if (theFlag.compare("-p") == 0 || theFlag.compare("--port") == 0){
         if (argc == 2){
             usage();
             return 2;
