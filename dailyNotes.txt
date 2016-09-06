@@ -42,7 +42,7 @@ globbing:
 assn1: gather reqs.
 do: set the port
 so call prog portsetter all lower
-phases:
+phases:-
 	1: print msg saying listening on port x what user specifies as cmd line arg -p for setting port num --port <number>
 		no default port. no params gives usage screen. 
 		error print error message, print usage, return non-zero and comment in code why. 2^16=65k ports
@@ -68,6 +68,7 @@ phases:
 		"put it on the stack, so you can stay on track"	
 	2: 
 	
+09-01-2016
 
 
 
