@@ -67,9 +67,26 @@ phases:-
 			make usage its own file so can be passed off to someone else.
 		"put it on the stack, so you can stay on track"	
 	2: 
+
 	
 09-01-2016
 
+100 hours, $50 /hr= $5000
+fixed is better than hourly
 
+how to get cin from within a bash script:
+	file redirection: $ ./prog1 >output.txt < input.txt
+		$ ./prog1 > file1 && prog2 < file1
+		same as: prog1 tmp.txt | prog2
+	pipe and redirect not thesame. pipe takes program, redir takes files.
+	
 
+09-06-2016
+
+windows command line stuf f is case insesitive
+	will enter /<flag> instead of -<flag>
+linux is case-sensitive
+a pointer is a var that holds an address
+	
+	
 end
