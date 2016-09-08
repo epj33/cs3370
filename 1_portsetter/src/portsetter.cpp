@@ -37,6 +37,7 @@ void usage(){
 **********************************************************/
 int main(int argc, char *args[]) {
     const int MAXPORT = 65536;
+    string theFlag = "";
     
     if (argc == 1){
         usage();
@@ -46,8 +47,7 @@ int main(int argc, char *args[]) {
         usage();
         return 1;
     }
-    string theFlag = args[1];
-    //if (theFlag.compare("-h") == 0 || theFlag.compare("--help") == 0){
+    theFlag = args[1];
     if (theFlag == "-h" || theFlag == "--help"){
         if (argc == 2){
             usage();
@@ -56,7 +56,6 @@ int main(int argc, char *args[]) {
             usage();
             return 1;
         }
-    //}else if (theFlag.compare("-p") == 0 || theFlag.compare("--port") == 0){
     }else if (theFlag == "-p" || theFlag == "--port"){
         if (argc == 2){
             usage();
