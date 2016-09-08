@@ -19,7 +19,7 @@ void usage(){
     cout << " -h,    --help      shows this help screen and exits" << endl;
     cout << " -p,    --port      shows port for listening (more to come in phase 2?)\n" << endl;
     cout << "Possible portNumbers:" << endl;
-    cout << " 1 - 65536 inclusive\n" << endl;
+    cout << " 1 - 65535 inclusive\n" << endl;
     cout << "Exit code:" << endl;
     cout << " 0 : success." << endl;
     cout << " 1 : too many arguments." << endl;
@@ -36,6 +36,8 @@ void usage(){
  * 
 **********************************************************/
 int main(int argc, char *args[]) {
+    const int MAXPORT = 65536;
+    
     if (argc == 1){
         usage();
         return 0;
@@ -45,7 +47,8 @@ int main(int argc, char *args[]) {
         return 1;
     }
     string theFlag = args[1];
-    if (theFlag.compare("-h") == 0 || theFlag.compare("--help") == 0){
+    //if (theFlag.compare("-h") == 0 || theFlag.compare("--help") == 0){
+    if (theFlag == "-h" || theFlag == "--help"){
         if (argc == 2){
             usage();
             return 0;
@@ -53,7 +56,8 @@ int main(int argc, char *args[]) {
             usage();
             return 1;
         }
-    }else if (theFlag.compare("-p") == 0 || theFlag.compare("--port") == 0){
+    //}else if (theFlag.compare("-p") == 0 || theFlag.compare("--port") == 0){
+    }else if (theFlag == "-p" || theFlag == "--port"){
         if (argc == 2){
             usage();
             return 2;
@@ -63,7 +67,7 @@ int main(int argc, char *args[]) {
         int thePortToUse = atoi(args[2]);
         int thePortSize;
         for (thePortSize=0; thePort > 0; ++thePortSize) thePort /= 10;
-        if (thePortToUse > 0 && thePortToUse < 65537 && thePortSize == thePortArgSize){
+        if (thePortToUse > 0 && thePortToUse < MAXPORT && thePortSize == thePortArgSize){
             if (argc == 3){
                 cout << "listening on port " << thePortToUse << endl;
                 return 0;
