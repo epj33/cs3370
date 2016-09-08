@@ -23,8 +23,9 @@ void usage(){
     cout << "Exit code:" << endl;
     cout << " 0 : success." << endl;
     cout << " 1 : too many arguments." << endl;
-    cout << " 2 : invalid portNumber passed / portNumber missing." << endl;
-    cout << " 3 : invalid flag passed." << endl;
+    cout << " 2 : portNumber missing." << endl;
+    cout << " 3 : invalid port number passed." << endl;
+    cout << " 4 : invalid flag passed." << endl;
 }//end fx usage
 
 
@@ -71,10 +72,10 @@ int main(int argc, char *args[]) {
                 return 0;
         }else{
             usage();
-            return 2;
+            return 3;
         }
     }else{
         usage();
-        return 3;
+        return 4;
     }
 }//end fx main
