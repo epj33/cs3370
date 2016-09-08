@@ -67,13 +67,8 @@ int main(int argc, char *args[]) {
         int thePortSize;
         for (thePortSize=0; thePort > 0; ++thePortSize) thePort /= 10;
         if (thePortToUse > 0 && thePortToUse < MAXPORT && thePortSize == thePortArgSize){
-            if (argc == 3){
                 cout << "listening on port " << thePortToUse << endl;
                 return 0;
-            }else{
-                usage();
-                return 1;
-            }
         }else{
             usage();
             return 2;
