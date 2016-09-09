@@ -1,0 +1,10 @@
+SOURCES=src/test.cpp
+EXECUTABLE=bin/testport
+
+all: $(EXECUTABLE)
+
+$(EXECUTABLE): $(SOURCES)
+	g++ $(SOURCES) -o $(EXECUTABLE)
+	
+clean:
+	rm -rf $(EXECUTABLE)
