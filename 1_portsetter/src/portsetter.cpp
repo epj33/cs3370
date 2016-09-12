@@ -11,6 +11,27 @@ use echo $? to show exit code.
 
 using namespace std;
 
+enum ReturnCodes {SUCCESS, ERR_TOO_MANY, ERR_NO_PORT, ERR_BAD_PORT, ERR_BAD_FLAG};
+
+const string TOOMANY = "too many arguments.";
+const string NOPORT  = "portNumber missing.";
+const string BADPORT = "invalid port number passed.";
+const string BADFLAG = "invalid flag passed.";
+
+void printError(int retCode){
+    switch (retCode){
+        case 1: cout << TOOMANY << endl;
+                break;
+        case 2: cout << NOPORT << endl;
+                break;
+        case 3: cout << BADPORT << endl;
+                break;
+        case 4: cout << BADFLAG << endl;
+                break;
+    }
+}//end fx pE
+
+
 void usage(){
     cout << "Usage: portsetter [flag] [portNumber]" << endl;
     cout << "example: portsetter -p 2345" << endl;
@@ -22,10 +43,10 @@ void usage(){
     cout << " 1 - 65535 inclusive\n" << endl;
     cout << "Exit code:" << endl;
     cout << " 0 : success." << endl;
-    cout << " 1 : too many arguments." << endl;
-    cout << " 2 : portNumber missing." << endl;
-    cout << " 3 : invalid port number passed." << endl;
-    cout << " 4 : invalid flag passed." << endl;
+    cout << " 1 : " << TOOMANY << endl;
+    cout << " 2 : " << NOPORT << endl;
+    cout << " 3 : " << BADPORT << endl;
+    cout << " 4 : " << BADFLAG << endl;
 }//end fx usage
 
 
@@ -37,30 +58,36 @@ void usage(){
  * 
 **********************************************************/
 int main(int argc, char *args[]) {
+    string theBin = args[0];
+    string theDir = theBin.substr(0,theBin.find("/"));
+    system("echo $PATH | grep $DIRE >/dev/null || PATH=$PATH:$DIRE");
     const int MAXPORT = 65536;
     string theFlag = "";
     
     if (argc == 1){
         usage();
-        return 0;
+        return SUCCESS;
     }
     if (argc > 3){
         usage();
-        return 1;
+        printError(ERR_TOO_MANY);
+        return ERR_TOO_MANY;
     }
     theFlag = args[1];
     if (theFlag == "-h" || theFlag == "--help"){
         if (argc == 2){
             usage();
-            return 0;
+            return SUCCESS;
         }else{
             usage();
-            return 1;
+            printError(ERR_TOO_MANY);
+            return ERR_TOO_MANY;
         }
     }else if (theFlag == "-p" || theFlag == "--port"){
         if (argc == 2){
             usage();
-            return 2;
+            printError(ERR_NO_PORT);
+            return ERR_NO_PORT;
         }
         int thePortArgSize = strlen(args[2]);
         int thePort = atoi(args[2]);
@@ -69,13 +96,15 @@ int main(int argc, char *args[]) {
         for (thePortSize=0; thePort > 0; ++thePortSize) thePort /= 10;
         if (thePortToUse > 0 && thePortToUse < MAXPORT && thePortSize == thePortArgSize){
                 cout << "listening on port " << thePortToUse << endl;
-                return 0;
+                return SUCCESS;
         }else{
             usage();
-            return 3;
+            printError(ERR_BAD_PORT);
+            return ERR_BAD_PORT;
         }
     }else{
         usage();
-        return 4;
+        printError(ERR_BAD_FLAG);
+        return ERR_BAD_FLAG;
     }
 }//end fx main

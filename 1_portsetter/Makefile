@@ -1,5 +1,5 @@
 SOURCES=src/portsetter.cpp
-EXECUTABLE=bin/portsetter
+EXECUTABLE=bin/setport
 
 all: $(EXECUTABLE)
 

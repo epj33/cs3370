@@ -1,10 +1,15 @@
+SHELL:=/bin/bash
 SOURCES=src/portsetter.cpp
-EXECUTABLE=bin/setport
+EXECUTABLE=bin/portsetter
 
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(SOURCES)
 	g++ $(SOURCES) -o $(EXECUTABLE)
+#	PWD=$(shell pwd)
+#	$(shell alias setport='bin/setport')
+#	"$(shell export PATH=$(PATH):./bin)"
+#	$(shell ls bin)
 	
 clean:
 	rm -rf $(EXECUTABLE)
