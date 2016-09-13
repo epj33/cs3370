@@ -58,9 +58,6 @@ void usage(){
  * 
 **********************************************************/
 int main(int argc, char *args[]) {
-    string theBin = args[0];
-    string theDir = theBin.substr(0,theBin.find("/"));
-    system("echo $PATH | grep $DIRE >/dev/null || PATH=$PATH:$DIRE");
     const int MAXPORT = 65536;
     string theFlag = "";
     

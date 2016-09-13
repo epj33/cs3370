@@ -5,11 +5,8 @@ EXECUTABLE=bin/portsetter
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(SOURCES)
+	mkdir -p bin
 	g++ $(SOURCES) -o $(EXECUTABLE)
-#	PWD=$(shell pwd)
-#	$(shell alias setport='bin/setport')
-#	"$(shell export PATH=$(PATH):./bin)"
-#	$(shell ls bin)
-	
+
 clean:
 	rm -rf $(EXECUTABLE)
