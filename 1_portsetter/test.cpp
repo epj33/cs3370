@@ -18,27 +18,34 @@ int runHappyTests(int verbosity = 1){
             cout << "happy test only binary name passed." << endl;
         }else{
             cout << "happy test only binary name failed." << endl;
+            return 1;
         }
         if (system("setport -h")/256 == 0){
             cout << "happy test bin -h passed." << endl;
         }else{
             cout << "happy test bin -h failed." << endl;
+            
+            return 1;
         }
         if (system("setport --help")/256 == 0){
             cout << "happy test bin --help passed." << endl;
         }else{
             cout << "happy test bin --help failed." << endl;
+            return 1;
+            
         }
         
         if (system("setport -p 4040")/256 == 0){
             cout << "happy test bin -p num passed." << endl;
         }else{
             cout << "happy test bin -p num failed." << endl;
+            return 1;
         }
         if (system("setport --port 4040")/256 == 0){
             cout << "happy test bin --port num passed." << endl;
         }else{
             cout << "happy test bin --port num failed." << endl;
+            return 1;
         }
     }else{
         //quiet tests
@@ -59,68 +66,81 @@ int runSadTests(int verbosity = 1){
             cout << "sad test bin help passed." << endl;
         }else{
             cout << "sad test bin help failed." << endl;
+            return 1;
         }
         if (system("setport -help")/256 == 4){
             cout << "sad test bin -help passed." << endl;
         }else{
             cout << "sad test bin -help failed." << endl;
+            return 1;
         }
         if (system("setport --h")/256 == 4){
             cout << "sad test bin --h passed." << endl;
         }else{
             cout << "sad test bin --h failed." << endl;
+            return 1;
         }
         if (system("setport -h --help")/256 == 1){
             cout << "sad test bin -h --help passed." << endl;
         }else{
             cout << "sad test bin -h --help failed." << endl;
+            return 1;
         }
         if (system("setport -hs")/256 == 4){
             cout << "sad test bin -hs passed." << endl;
         }else{
             cout << "sad test bin -hs failed." << endl;
+            return 1;
         }
         
         if (system("setport -p --port 9")/256 == 1){
             cout << "sad test bin -p --port num passed." << endl;
         }else{
             cout << "sad test bin -p --port num failed." << endl;
+            return 1;
         }
         if (system("setport -p 77 33")/256 == 1){
             cout << "sad test bin -p num num passed." << endl;
         }else{
             cout << "sad test bin -p num num failed." << endl;
+            return 1;
         }
         if (system("setport -p -21")/256 == 3){
             cout << "sad test bin -p neg num passed." << endl;
         }else{
             cout << "sad test bin -p neg num failed." << endl;
+            return 1;
         }
         if (system("setport -p 0")/256 == 3){
             cout << "sad test bin -p zero passed." << endl;
         }else{
             cout << "sad test bin -p zero failed." << endl;
+            return 1;
         }
         if (system("setport --port")/256 == 2){
             cout << "sad test bin --port no num passed." << endl;
         }else{
             cout << "sad test bin --port no num failed." << endl;
+            return 1;
         }
         if (system("setport -p 90642")/256 == 3){
             cout << "sad test bin -p high num passed." << endl;
         }else{
             cout << "sad test bin -p high num failed." << endl;
+            return 1;
         }
         
         if (system("setport -x")/256 == 4){
             cout << "sad test bin -x passed." << endl;
         }else{
             cout << "sad test bin -x failed." << endl;
+            return 1;
         }
         if (system("setport -P")/256 == 4){
             cout << "sad test bin -P passed." << endl;
         }else{
             cout << "sad test bin -P failed." << endl;
+            return 1;
         }
     }else{
         //quiet tests
