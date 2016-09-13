@@ -1,10 +1,10 @@
-SOURCES=src/portsetter.cpp
-EXECUTABLE=bin/setport
+all: portsetter testport
 
-all: $(EXECUTABLE)
-
-$(EXECUTABLE): $(SOURCES)
-	g++ $(SOURCES) -o $(EXECUTABLE)
+portsetter: portsetter.cpp
+	g++ portsetter.cpp -o bin/portsetter
+	
+testport: test.cpp
+	g++ test.cpp -o bin/testport
 	
 clean:
-	rm -rf $(EXECUTABLE)
+	rm -rf bin
