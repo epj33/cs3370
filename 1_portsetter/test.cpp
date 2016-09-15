@@ -20,11 +20,30 @@ int runHappyTests(int verbosity = 1){
             cout << "happy test only binary name failed." << endl;
             return 1;
         }
+        
+        if (system("setport -!")/256 == 0){
+            cout << "happy test bin -! passed." << endl;
+        }else{
+            cout << "happy test bin -! failed." << endl;
+            return 1;
+        }
+        if (system("setport --about")/256 == 0){
+            cout << "happy test bin --about passed." << endl;
+        }else{
+            cout << "happy test bin --about failed." << endl;
+            return 1;
+        }
+        
         if (system("setport -h")/256 == 0){
             cout << "happy test bin -h passed." << endl;
         }else{
             cout << "happy test bin -h failed." << endl;
-            
+            return 1;
+        }
+        if (system("setport -?")/256 == 0){
+            cout << "happy test bin -? passed." << endl;
+        }else{
+            cout << "happy test bin -? failed." << endl;
             return 1;
         }
         if (system("setport --help")/256 == 0){
@@ -32,7 +51,19 @@ int runHappyTests(int verbosity = 1){
         }else{
             cout << "happy test bin --help failed." << endl;
             return 1;
-            
+        }
+        
+        if (system("setport -v")/256 == 0){
+            cout << "happy test bin -v passed." << endl;
+        }else{
+            cout << "happy test bin -v failed." << endl;
+            return 1;
+        }
+        if (system("setport --version")/256 == 0){
+            cout << "happy test bin --version passed." << endl;
+        }else{
+            cout << "happy test bin --version failed." << endl;
+            return 1;
         }
         
         if (system("setport -p 4040")/256 == 0){
@@ -51,6 +82,7 @@ int runHappyTests(int verbosity = 1){
         //quiet tests
         assert (system("setport > /dev/null")/256 == 0);
         assert (system("setport -h > /dev/null")/256 == 0);
+        assert (system("setport -? > /dev/null")/256 == 0);
         assert (system("setport --help > /dev/null")/256 == 0);
         
         assert (system("setport -p 4040 > /dev/null")/256 == 0);

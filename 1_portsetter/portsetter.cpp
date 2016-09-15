@@ -43,7 +43,7 @@ string giveLastLineOfFile(char* fileToPrint){
     //cout << dataToOutput << endl;
     myFile.close();
     return finalDataToOuput;
-}
+}//end fx gLlOf
 
 
 void printWholeFile(char* fileToPrint){
@@ -68,13 +68,14 @@ void about(){
     printWholeFile(myAbout);
 }//end fx about
 
+
 void version(){
     char myVersion[] = "setport.version.txt";
     string myVers = giveLastLineOfFile(myVersion);
     char myBuild[] = "setport.build.txt";
     string myBld = giveLastLineOfFile(myBuild);
     cout << myVers << "." << myBld << endl;
-}
+}//end fx version
 
 
 /**********************************************************
