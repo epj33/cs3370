@@ -72,6 +72,18 @@ int runHappyTests(int verbosity = 1){
             cout << "happy test bin -p num failed." << endl;
             return 1;
         }
+        if (system("setport -p -e")/256 == 0){
+            cout << "happy test bin -p -e passed." << endl;
+        }else{
+            cout << "happy test bin -p -e failed." << endl;
+            return 1;
+        }
+        if (system("setport -p -e PORT")/256 == 0){
+            cout << "happy test bin -p -e envVar passed." << endl;
+        }else{
+            cout << "happy test bin -p -e envVar failed." << endl;
+            return 1;
+        }
         if (system("setport --port 4040")/256 == 0){
             cout << "happy test bin --port num passed." << endl;
         }else{
@@ -92,7 +104,11 @@ int runHappyTests(int verbosity = 1){
         assert (system("setport --version > /dev/null")/256 == 0);
         
         assert (system("setport -p 4040 > /dev/null")/256 == 0);
+        assert (system("setport -p -e > /dev/null")/256 == 0);
+        assert (system("setport -p -e PORT > /dev/null")/256 == 0);
         assert (system("setport --port 4040 > /dev/null")/256 == 0);
+        assert (system("setport --port -e > /dev/null")/256 == 0);
+        assert (system("setport --port -e PORT > /dev/null")/256 == 0);
     }
     cout << "all happy tests passed" << endl;
     return 0;
@@ -163,6 +179,12 @@ int runSadTests(int verbosity = 1){
             cout << "sad test bin -about failed." << endl;
             return 1;
         }
+        if (system("setport -! --about")/256 == 1){
+            cout << "sad test bin -! --about passed." << endl;
+        }else{
+            cout << "sad test bin -! --about failed." << endl;
+            return 1;
+        }
         
         //here
         if (system("setport --v")/256 == 4){
@@ -175,6 +197,12 @@ int runSadTests(int verbosity = 1){
             cout << "sad test bin -version passed." << endl;
         }else{
             cout << "sad test bin -version failed." << endl;
+            return 1;
+        }
+        if (system("setport -v --version")/256 == 1){
+            cout << "sad test bin -v --version passed." << endl;
+        }else{
+            cout << "sad test bin -v --version failed." << endl;
             return 1;
         }
         
@@ -230,9 +258,12 @@ int runSadTests(int verbosity = 1){
     }else{
         //quiet tests
         assert (system("setport help > /dev/null")/256 == 4);
+        assert (system("setport ? > /dev/null")/256 == 4);
         assert (system("setport -help > /dev/null")/256 == 4);
         assert (system("setport --h > /dev/null")/256 == 4);
+        assert (system("setport --? > /dev/null")/256 == 4);
         assert (system("setport -h --help > /dev/null")/256 == 1);
+        assert (system("setport -h -? --help > /dev/null")/256 == 1);
         assert (system("setport -hs > /dev/null")/256 == 4);
         
         assert (system("setport -p --port 9 > /dev/null")/256 == 1);

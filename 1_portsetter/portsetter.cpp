@@ -12,12 +12,13 @@ use echo $? to show exit code.
 
 using namespace std;
 
-enum ReturnCodes {SUCCESS, ERR_TOO_MANY, ERR_NO_PORT, ERR_BAD_PORT, ERR_BAD_FLAG};
+enum ReturnCodes {SUCCESS, ERR_TOO_MANY, ERR_NO_PORT, ERR_BAD_PORT, ERR_BAD_FLAG, ERR_BAD_ENV};
 
 const string TOOMANY = "too many arguments.";
 const string NOPORT  = "portNumber missing.";
 const string BADPORT = "invalid port number passed.";
 const string BADFLAG = "invalid flag passed.";
+const string BADENV  = "invalid env var passed.";
 
 void printError(int retCode){
     switch (retCode){
@@ -28,6 +29,8 @@ void printError(int retCode){
         case 3: cout << BADPORT << endl;
                 break;
         case 4: cout << BADFLAG << endl;
+                break;
+        case 5: cout << BADENV << endl;
                 break;
     }
 }//end fx pE
@@ -40,7 +43,6 @@ string giveLastLineOfFile(char* fileToPrint){
         getline(myFile, tempDataToOutput);
         if (!tempDataToOutput.empty()) finalDataToOuput = tempDataToOutput;
     }
-    //cout << dataToOutput << endl;
     myFile.close();
     return finalDataToOuput;
 }//end fx gLlOf
@@ -78,22 +80,16 @@ void version(){
 }//end fx version
 
 
-/**********************************************************
- * input params:    -h, --help
- *                  -p <portNumber>, --port <portNumber>
- * 
- * output expected: "listening on port <portFromCmdLine>"
- * 
-**********************************************************/
 int main(int argc, char *args[]) {
     const int MAXPORT = 65536;
     string theFlag = "";
+    string thePortFlag ="";
     
     if (argc == 1){
         usage();
         return SUCCESS;
     }
-    if (argc > 3){
+    if (argc > 4){
         usage();
         printError(ERR_TOO_MANY);
         return ERR_TOO_MANY;
@@ -132,10 +128,44 @@ int main(int argc, char *args[]) {
             printError(ERR_NO_PORT);
             return ERR_NO_PORT;
         }
-        int thePortArgSize = strlen(args[2]);
-        int thePort = atoi(args[2]);
-        int thePortToUse = atoi(args[2]);
+        thePortFlag = args[2];
+        string theEnvVar = "";
+        int thePortToUse;
+        int thePort;
         int thePortSize;
+        int thePortArgSize;
+        if (thePortFlag == "-e"){
+            if (argc > 4){
+                usage();
+                printError(ERR_TOO_MANY);
+                return ERR_TOO_MANY;
+            }
+            if (argc == 3) theEnvVar = "EPJPORT"; //FIXME reset to PORT
+            if (argc == 4) theEnvVar = args[3];
+            char* dupedEnvVar = strdup(theEnvVar.c_str());
+            char* thePortArg = getenv(dupedEnvVar);
+            if (!thePortArg){
+                usage();
+                printError(ERR_BAD_ENV);
+                return ERR_BAD_ENV;
+            }
+            if (thePortArg){
+                thePortArgSize = strlen(getenv(dupedEnvVar));
+                thePortToUse = atoi(getenv(dupedEnvVar));
+                thePort = atoi(getenv(dupedEnvVar));
+            }
+        }
+        else{
+            if (argc > 3){
+                usage();
+                printError(ERR_TOO_MANY);
+                return ERR_TOO_MANY;
+            }
+            thePortArgSize = strlen(args[2]);
+            thePortToUse = atoi(args[2]);
+            thePort = atoi(args[2]);
+            
+        }
         for (thePortSize=0; thePort > 0; ++thePortSize) thePort /= 10;
         if (thePortToUse > 0 && thePortToUse < MAXPORT && thePortSize == thePortArgSize){
                 cout << "listening on port " << thePortToUse << endl;
