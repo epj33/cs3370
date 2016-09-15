@@ -2,19 +2,18 @@
 #first run and test
 {
     $(mkdir -p bin)
-    "$(make)" >/dev/null
+    $(make)
     
-    DIRE="$PWD/bin"
-    EXEC="/portsetter"
+    EXEC="bin/portsetter"
+    NEWDIR="/usr/local/bin/"
     NEWEXEC="setport"
-    if [[ -n $(find . -name "setport") ]] 
+    if [[ -n $(find $NEWDIR -name $NEWEXEC) ]] 
     then
         : 
     else
-        $(mv $DIRE$EXEC $DIRE/$NEWEXEC)
-        "$(source PATH=$PATH:$DIRE) >/dev/null"
+        $(sudo cp $EXEC $NEWDIR$NEWEXEC)
     fi
 } &> /dev/null
 
-"$(echo bin/testport)"
+$(echo bin/testport)
 echo "setport ready for use"

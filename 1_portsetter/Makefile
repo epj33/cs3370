@@ -8,3 +8,4 @@ testport: test.cpp
 	
 clean:
 	rm -rf bin
+	sudo rm /usr/local/bin/setport 
