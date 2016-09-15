@@ -8,6 +8,7 @@ use echo $? to show exit code.
 #include <iostream>
 #include <stdlib.h>
 #include <string.h>
+#include <fstream>
 
 using namespace std;
 
@@ -31,23 +32,49 @@ void printError(int retCode){
     }
 }//end fx pE
 
+string giveLastLineOfFile(char* fileToPrint){
+    string tempDataToOutput;
+    string finalDataToOuput;
+    ifstream myFile(fileToPrint);
+    while (myFile){
+        getline(myFile, tempDataToOutput);
+        if (!tempDataToOutput.empty()) finalDataToOuput = tempDataToOutput;
+    }
+    //cout << dataToOutput << endl;
+    myFile.close();
+    return finalDataToOuput;
+}
+
+
+void printWholeFile(char* fileToPrint){
+    string dataToOutput;
+    ifstream myFile(fileToPrint);
+    while (myFile){
+        getline(myFile, dataToOutput);
+        cout << dataToOutput << endl;
+    }
+    myFile.close();
+}//end fx pF
+
 
 void usage(){
-    cout << "Usage: portsetter [flag] [portNumber]" << endl;
-    cout << "example: portsetter -p 2345" << endl;
-    cout << "Shows port number for listening.\n" << endl;
-    cout << "Possible flags:" << endl;
-    cout << " -h,    --help      shows this help screen and exits" << endl;
-    cout << " -p,    --port      shows port for listening (more to come in phase 2?)\n" << endl;
-    cout << "Possible portNumbers:" << endl;
-    cout << " 1 - 65535 inclusive\n" << endl;
-    cout << "Exit code:" << endl;
-    cout << " 0 : success." << endl;
-    cout << " 1 : " << TOOMANY << endl;
-    cout << " 2 : " << NOPORT << endl;
-    cout << " 3 : " << BADPORT << endl;
-    cout << " 4 : " << BADFLAG << endl;
+    char myUsage[] = "setport.usage_en.txt";
+    printWholeFile(myUsage);
 }//end fx usage
+
+
+void about(){
+    char myAbout[] = "setport.about_en.txt";
+    printWholeFile(myAbout);
+}//end fx about
+
+void version(){
+    char myVersion[] = "setport.version.txt";
+    string myVers = giveLastLineOfFile(myVersion);
+    char myBuild[] = "setport.build.txt";
+    string myBld = giveLastLineOfFile(myBuild);
+    cout << myVers << "." << myBld << endl;
+}
 
 
 /**********************************************************
@@ -71,9 +98,27 @@ int main(int argc, char *args[]) {
         return ERR_TOO_MANY;
     }
     theFlag = args[1];
-    if (theFlag == "-h" || theFlag == "--help"){
+    if (theFlag == "-?" || theFlag == "-h" || theFlag == "--help"){
         if (argc == 2){
             usage();
+            return SUCCESS;
+        }else{
+            usage();
+            printError(ERR_TOO_MANY);
+            return ERR_TOO_MANY;
+        }
+    }else if (theFlag == "-!" || theFlag == "--about"){
+        if (argc == 2){
+            about();
+            return SUCCESS;
+        }else{
+            usage();
+            printError(ERR_TOO_MANY);
+            return ERR_TOO_MANY;
+        }
+    }else if (theFlag == "-v" || theFlag == "--version"){
+        if (argc == 2){
+            version();
             return SUCCESS;
         }else{
             usage();
