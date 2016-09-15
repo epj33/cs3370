@@ -1,8 +1,8 @@
 #!/bin/bash
 #first run and test
 {
-    $(mkdir -p bin)
-    $(make)
+    mkdir -p bin
+    make
     
     EXEC="bin/portsetter"
     NEWDIR="/usr/local/bin/"
@@ -11,7 +11,7 @@
     then
         : 
     else
-        $(sudo cp $EXEC $NEWDIR$NEWEXEC)
+        sudo cp $EXEC $NEWDIR$NEWEXEC
     fi
 } &> /dev/null
 
@@ -19,5 +19,10 @@ BUILD=$(tail -n 1 setport.build.txt)
 ((BUILD++))
 echo $BUILD >> setport.build.txt
 
-$(echo bin/testport)
-echo "setport ready for use"
+bin/testport $1
+if [[ $? -eq 0 ]]
+then
+    echo "setport ready for use"
+else
+    echo "test(s) failed."
+fi

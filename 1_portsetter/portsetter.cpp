@@ -103,30 +103,30 @@ int main(int argc, char *args[]) {
         if (argc == 2){
             usage();
             return SUCCESS;
-        }else{
-            usage();
-            printError(ERR_TOO_MANY);
-            return ERR_TOO_MANY;
         }
-    }else if (theFlag == "-!" || theFlag == "--about"){
+        usage();
+        printError(ERR_TOO_MANY);
+        return ERR_TOO_MANY;
+    }
+    if (theFlag == "-!" || theFlag == "--about"){
         if (argc == 2){
             about();
             return SUCCESS;
-        }else{
-            usage();
-            printError(ERR_TOO_MANY);
-            return ERR_TOO_MANY;
         }
-    }else if (theFlag == "-v" || theFlag == "--version"){
+        usage();
+        printError(ERR_TOO_MANY);
+        return ERR_TOO_MANY;
+    }
+    if (theFlag == "-v" || theFlag == "--version"){
         if (argc == 2){
             version();
             return SUCCESS;
-        }else{
-            usage();
-            printError(ERR_TOO_MANY);
-            return ERR_TOO_MANY;
         }
-    }else if (theFlag == "-p" || theFlag == "--port"){
+        usage();
+        printError(ERR_TOO_MANY);
+        return ERR_TOO_MANY;
+    }
+    if (theFlag == "-p" || theFlag == "--port"){
         if (argc == 2){
             usage();
             printError(ERR_NO_PORT);
@@ -140,14 +140,12 @@ int main(int argc, char *args[]) {
         if (thePortToUse > 0 && thePortToUse < MAXPORT && thePortSize == thePortArgSize){
                 cout << "listening on port " << thePortToUse << endl;
                 return SUCCESS;
-        }else{
-            usage();
-            printError(ERR_BAD_PORT);
-            return ERR_BAD_PORT;
         }
-    }else{
         usage();
-        printError(ERR_BAD_FLAG);
-        return ERR_BAD_FLAG;
+        printError(ERR_BAD_PORT);
+        return ERR_BAD_PORT;
     }
+    usage();
+    printError(ERR_BAD_FLAG);
+    return ERR_BAD_FLAG;
 }//end fx main
