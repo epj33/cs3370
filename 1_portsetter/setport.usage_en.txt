@@ -1,0 +1,17 @@
+Usage: "portsetter [flag] [portNumber]"
+example: portsetter -p 2345
+Shows port number for listening.
+
+Possible flags:
+    -h,    --help      shows this help screen and exits
+    -p,    --port      shows port for listening
+    
+Possible portNumbers:
+    1 - 65535 inclusive
+
+Exit code:
+    0 : success.
+    1 : too many arguments.
+    2 : portNumber missing.
+    3 : invalid port number passed.
+    4 : invalid flag passed
