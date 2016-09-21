@@ -1,0 +1,6 @@
+LISTENING=listening on port en
+TOOMANY=too many arguments.
+NOPORT=portNumber missing.
+BADPORT=invalid port number passed.
+BADFLAG=invalid flag passed.
+BADENV=invalid env var passed.

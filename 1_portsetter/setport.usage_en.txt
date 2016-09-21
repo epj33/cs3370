@@ -1,5 +1,5 @@
 Usage: "portsetter [flag] [portNumber]"
-example: portsetter -p 2345
+example: bin/portsetter -p 2345 or, more simply setport -p 2345
 Shows port number for listening.
 
 Possible flags:
@@ -23,4 +23,5 @@ Exit code:
     1 : too many arguments.
     2 : portNumber missing.
     3 : invalid port number passed.
-    4 : invalid flag passed
+    4 : invalid flag passed.
+    5 : invalid env var passed.

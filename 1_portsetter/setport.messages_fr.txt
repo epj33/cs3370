@@ -1,0 +1,6 @@
+LISTENING=écoute sur le port
+TOOMANY=trop d'arguments.
+NOPORT=le numéro de port manquant.
+BADPORT=numéro de port non valide passé
+BADFLAG=drapeau invalide passé.
+BADENV=variable d'environnement invalide passé.

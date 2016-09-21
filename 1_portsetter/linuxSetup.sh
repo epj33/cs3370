@@ -13,11 +13,13 @@
     else
         sudo cp $EXEC $NEWDIR$NEWEXEC
     fi
+    
+    BUILD=$(tail -n 1 setport.build.txt)
+    ((BUILD++))
+    echo $BUILD >> setport.build.txt
 } &> /dev/null
 
-BUILD=$(tail -n 1 setport.build.txt)
-((BUILD++))
-echo $BUILD >> setport.build.txt
+
 
 bin/testport $1
 if [[ $? -eq 0 ]]
