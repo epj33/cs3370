@@ -12,6 +12,7 @@ use echo $? to show exit code.
 #include <map>
 #include <regex>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -20,8 +21,52 @@ string localeLang = "en";
 map <string, string> localeMessages;
 vector <string> langCodesToSkip = {"", "C", "C.UTF-8"};
 
+int readLocalFromEnv(){
+    //regex twoCharLang("([a-z]{2}).*");  //("([a-z]{2})(-[A-Z]{2})?"); //("(//w+)-.*"); //("^[a-z]{2}.*");
+    //smatch myLangMatch;
+    string localeFromEnv = getenv("LANGUAGE") ?: "";
+    if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
+        cout << "localeFromEnv.LANGUAGE: " << localeFromEnv << endl;
+        return 1;
+    }
+    
+    localeFromEnv = getenv("LC_ALL") ?: "";
+    if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
+        cout << "localeFromEnv.LC_ALL: " << localeFromEnv << endl;
+        return 1;
+    }
+    
+    localeFromEnv = getenv("LC_MESSAGES") ?: "";
+    if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
+        cout << "localeFromEnv.LC_MESSAGES: " << localeFromEnv << endl;
+        return 1;
+    }
+    
+    localeFromEnv = getenv("LANG") ?: "";
+    if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
+        cout << "localeFromEnv.LANG: " << localeFromEnv << endl;
+        return 1;
+    }
+    
+    localeFromEnv = getenv("ERICLANG") ?: "";
+    if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
+        cout << "localeFromEnv.ERICLANG: " << localeFromEnv << endl;
+        regex mySubEnvLangCode ("(^[a-z]{2}).*");  //("([a-z]{2})(-[A-Z]{2})?"); //("(//w+)-.*"); //("^[a-z]{2}.*");
+        cout << "made it here" << endl;
+        smatch myLangMatch;
+        cout << "made it there" << endl;
+        if(regex_search(localeFromEnv, myLangMatch, mySubEnvLangCode))
+            cout << "localeFromEnv.ERICLANG.2: " << myLangMatch[1] << endl; //localeFromEnv << endl; //myLangMatch[1] << endl;
+        return 1;
+    }
+    cout << "tests ended?" << endl;
+    return 0;
+}//end fx rLfE
+
 
 void loadLocaleMessages(){
+    
+    int retFromEnv = readLocalFromEnv();
     string messageFileToLoad = "setport.messages_" + localeLang + ".txt";
     cout << "messageFileToLoad: " << messageFileToLoad << endl;
    
