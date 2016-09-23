@@ -1,0 +1,7 @@
+LISTENING=escucha en el puerto
+TOOMANY=demasiados argumentos.
+NOPORT=pNúmero de puerto que faltan.
+BADPORT=número de puerto no válido pasó.
+BADFLAG=bandera no válido pasó.
+BADENV=inválida env var pasó.
+BADFILE=archivo de idioma que falta.

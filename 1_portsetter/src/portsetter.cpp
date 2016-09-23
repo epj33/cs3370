@@ -16,71 +16,58 @@ use echo $? to show exit code.
 
 using namespace std;
 
-enum ReturnCodes {SUCCESS, ERR_TOO_MANY, ERR_NO_PORT, ERR_BAD_PORT, ERR_BAD_FLAG, ERR_BAD_ENV};
+enum ReturnCodes {SUCCESS, ERR_TOO_MANY, ERR_NO_PORT, ERR_BAD_PORT, ERR_BAD_FLAG, ERR_BAD_ENV, ERR_BAD_FILE};
 string localeLang = "en";
 map <string, string> localeMessages;
 vector <string> langCodesToSkip = {"", "C", "C.UTF-8"};
 
 int readLocalFromEnv(){
-    //regex twoCharLang("([a-z]{2}).*");  //("([a-z]{2})(-[A-Z]{2})?"); //("(//w+)-.*"); //("^[a-z]{2}.*");
-    //smatch myLangMatch;
+    regex mySubEnvLangCode ("(^[[:lower:]]{2}).*");
+    smatch myLangMatch;
     string localeFromEnv = getenv("LANGUAGE") ?: "";
     if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
-        cout << "localeFromEnv.LANGUAGE: " << localeFromEnv << endl;
+        if(regex_search(localeFromEnv, myLangMatch, mySubEnvLangCode))
+            localeLang = myLangMatch[1];
         return 1;
     }
     
     localeFromEnv = getenv("LC_ALL") ?: "";
     if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
-        cout << "localeFromEnv.LC_ALL: " << localeFromEnv << endl;
+        if(regex_search(localeFromEnv, myLangMatch, mySubEnvLangCode))
+            localeLang = myLangMatch[1];
         return 1;
     }
     
     localeFromEnv = getenv("LC_MESSAGES") ?: "";
     if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
-        cout << "localeFromEnv.LC_MESSAGES: " << localeFromEnv << endl;
+        if(regex_search(localeFromEnv, myLangMatch, mySubEnvLangCode))
+            localeLang = myLangMatch[1];
         return 1;
     }
     
     localeFromEnv = getenv("LANG") ?: "";
     if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
-        cout << "localeFromEnv.LANG: " << localeFromEnv << endl;
+        if(regex_search(localeFromEnv, myLangMatch, mySubEnvLangCode))
+            localeLang = myLangMatch[1];
         return 1;
     }
-    
+    /*
     localeFromEnv = getenv("ERICLANG") ?: "";
+    cout << "going for erics lang" << endl;
     if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
-        cout << "localeFromEnv.ERICLANG: " << localeFromEnv << endl;
-        regex mySubEnvLangCode ("(^[a-z]{2}).*");  //("([a-z]{2})(-[A-Z]{2})?"); //("(//w+)-.*"); //("^[a-z]{2}.*");
-        cout << "made it here" << endl;
-        smatch myLangMatch;
-        cout << "made it there" << endl;
         if(regex_search(localeFromEnv, myLangMatch, mySubEnvLangCode))
-            cout << "localeFromEnv.ERICLANG.2: " << myLangMatch[1] << endl; //localeFromEnv << endl; //myLangMatch[1] << endl;
+            localeLang = myLangMatch[1];// << endl; //localeFromEnv << endl; //myLangMatch[1] << endl;
         return 1;
     }
     cout << "tests ended?" << endl;
+    */
     return 0;
 }//end fx rLfE
 
 
-void loadLocaleMessages(){
-    
-    int retFromEnv = readLocalFromEnv();
-    string messageFileToLoad = "setport.messages_" + localeLang + ".txt";
-    cout << "messageFileToLoad: " << messageFileToLoad << endl;
-   
-    string dataToOutput;
-    ifstream myFile(messageFileToLoad);
-    while (myFile){
-        getline(myFile, dataToOutput);
-        int eqPos = dataToOutput.find_first_of("=");
-        string localeMessageKey = dataToOutput.substr(0, eqPos);
-        string localeMessageVal = dataToOutput.substr(eqPos+1);
-        localeMessages[localeMessageKey] = localeMessageVal;
-    }
-    myFile.close();
-}//end fx lLm
+void setDefaultLang(){
+    localeLang = "en";
+}//end fx sDl
 
 
 void printError(int retCode){
@@ -95,8 +82,38 @@ void printError(int retCode){
                 break;
         case 5: cout << localeMessages["BADENV"] << endl;
                 break;
+        case 6: cout << localeMessages["BADFILE"] << endl;
+                break;
     }
 }//end fx pE
+
+
+void fillLocaleVector(string theFileToReadFrom){
+    string dataToOutput;
+    ifstream myFile(theFileToReadFrom);
+    while (myFile){
+        getline(myFile, dataToOutput);
+        int eqPos = dataToOutput.find_first_of("=");
+        string localeMessageKey = dataToOutput.substr(0, eqPos);
+        string localeMessageVal = dataToOutput.substr(eqPos+1);
+        localeMessages[localeMessageKey] = localeMessageVal;
+    }
+    myFile.close();
+}//end fx fLv
+
+
+void loadLocaleMessages(){
+    int retFromEnv = readLocalFromEnv();
+    string messageFileToLoad = "i18n/messages/setport.messages_" + localeLang + ".txt";
+    ifstream myFile(messageFileToLoad);
+    if (myFile) fillLocaleVector(messageFileToLoad);
+    else{
+        localeLang = "en";
+        fillLocaleVector("i18n/messages/setport.messages_en.txt");
+        setDefaultLang();
+        printError(ERR_BAD_FILE);
+    }
+}//end fx lLm
 
 
 string giveLastLineOfFile(char* fileToPrint){
@@ -112,8 +129,8 @@ string giveLastLineOfFile(char* fileToPrint){
 }//end fx gLlOf
 
 
-void printWholeFile(char* fileToPrint){
-    string dataToOutput;
+void printWholeFile(const char* fileToPrint){
+    string dataToOutput = "";
     ifstream myFile(fileToPrint);
     while (myFile){
         getline(myFile, dataToOutput);
@@ -124,14 +141,14 @@ void printWholeFile(char* fileToPrint){
 
 
 void usage(){
-    char myUsage[] = "setport.usage_en.txt";
-    printWholeFile(myUsage);
+    string theFileLoc = "i18n/usages/setport.usage_" + localeLang + ".txt";
+    printWholeFile(theFileLoc.c_str());
 }//end fx usage
 
 
 void about(){
-    char myAbout[] = "setport.about_en.txt";
-    printWholeFile(myAbout);
+    string theFileLoc = "i18n/abouts/setport.about_" + localeLang + ".txt";
+    printWholeFile(theFileLoc.c_str());
 }//end fx about
 
 

@@ -1,12 +1,12 @@
 all: portsetter testport
 
-portsetter: portsetter.cpp
+portsetter: src/portsetter.cpp
 #	g++ portsetter.cpp -o bin/portsetter
-	g++ --std=c++11 portsetter.cpp -o bin/portsetter
+	g++-5 --std=c++14 src/portsetter.cpp -o bin/portsetter
 	
-testport: test.cpp
+testport: src/test.cpp
 #	g++ test.cpp -o bin/testport
-	g++ --std=c++11 test.cpp -o bin/testport
+	g++-5 --std=c++14 src/test.cpp -o bin/testport
 	
 clean:
 	rm -rf bin

@@ -1,0 +1,28 @@
+Utilisation: "portsetter [flag] [portNumber]"
+exemple: bin / portsetter -p 2345 ou, plus simplement setport -p 2345
+Affiche le numéro de port pour l'écoute.
+
+drapeaux possibles:
+    -!      --about     montre à propos de l'écran et quitte
+    -h, -?, --help      montre cet écran et les sorties de l'aide
+    -p,     --port      montre le port pour écouter un sort
+    -v,     --version   affiche le numéro de version et quitte
+    
+portNumbers valides:
+    1-65535 inclusive
+        ou
+    utiliser un env var à tirer dans le port comme:
+    -e [NOM_VAR_ENVIR]
+    par exemple, où il y a une var env appelé portnum:
+        setport -p -e portnum
+    si aucune env var est spécifié, par défaut -e à l'env var appelé PORT comme:
+        setport -p -e
+
+Code de sortie:
+    0: succès.
+    1: trop d'arguments.
+    2: portNumber manquant.
+    3: numéro de port non valide passé.
+    4: drapeau invalide passé.
+    5: invalide env var passé.
+    

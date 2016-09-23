@@ -1,0 +1,28 @@
+Uso: "portsetter [bandera] [portNumber]"
+ejemplo: bin / portsetter -p 2345 o, más simplemente setport -p 2345
+Muestra el número de puerto para la escucha.
+
+Posibles banderas:
+    -!          --about     muestra sobre la pantalla y salidas
+    -h, -?,     --help      muestra esta pantalla y salidas de ayuda
+    -p,         --port      muestra puerto para escuchar un salidas
+    -v,         --version   muestra el número de versión y finaliza
+    
+números de puerto válidos:
+    1 - 65535 incluido
+        o
+    utilizar un var env para tirar en el puerto como:
+    -e [ENV_VAR_NAME]
+    por ejemplo, donde hay una var env llamado PortNum:
+        setport -p -e PortNum
+    si no se especifica env var, por defecto -e para el env var llaman puerto como:
+        setport -p -e
+
+Código de salida:
+    0: el éxito.
+    1: demasiados argumentos.
+    2: portNumber faltante.
+    3: número de puerto no válido pasado.
+    4: El indicador no válido pasado.
+    5: inválido env var pasó.
+    
