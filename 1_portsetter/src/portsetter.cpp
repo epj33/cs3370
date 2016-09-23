@@ -16,58 +16,11 @@ use echo $? to show exit code.
 
 using namespace std;
 
-enum ReturnCodes {SUCCESS, ERR_TOO_MANY, ERR_NO_PORT, ERR_BAD_PORT, ERR_BAD_FLAG, ERR_BAD_ENV, ERR_BAD_FILE};
+enum ReturnCodes {SUCCESS, ERR_TOO_MANY, ERR_NO_PORT, ERR_BAD_PORT, ERR_BAD_FLAG, ERR_BAD_ENV, ERR_BAD_FILE, ERR_DO_ENG};
 string localeLang = "en";
 map <string, string> localeMessages;
 vector <string> langCodesToSkip = {"", "C", "C.UTF-8"};
 
-int readLocalFromEnv(){
-    regex mySubEnvLangCode ("(^[[:lower:]]{2}).*");
-    smatch myLangMatch;
-    string localeFromEnv = getenv("LANGUAGE") ?: "";
-    if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
-        if(regex_search(localeFromEnv, myLangMatch, mySubEnvLangCode))
-            localeLang = myLangMatch[1];
-        return 1;
-    }
-    
-    localeFromEnv = getenv("LC_ALL") ?: "";
-    if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
-        if(regex_search(localeFromEnv, myLangMatch, mySubEnvLangCode))
-            localeLang = myLangMatch[1];
-        return 1;
-    }
-    
-    localeFromEnv = getenv("LC_MESSAGES") ?: "";
-    if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
-        if(regex_search(localeFromEnv, myLangMatch, mySubEnvLangCode))
-            localeLang = myLangMatch[1];
-        return 1;
-    }
-    
-    localeFromEnv = getenv("LANG") ?: "";
-    if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
-        if(regex_search(localeFromEnv, myLangMatch, mySubEnvLangCode))
-            localeLang = myLangMatch[1];
-        return 1;
-    }
-    /*
-    localeFromEnv = getenv("ERICLANG") ?: "";
-    cout << "going for erics lang" << endl;
-    if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
-        if(regex_search(localeFromEnv, myLangMatch, mySubEnvLangCode))
-            localeLang = myLangMatch[1];// << endl; //localeFromEnv << endl; //myLangMatch[1] << endl;
-        return 1;
-    }
-    cout << "tests ended?" << endl;
-    */
-    return 0;
-}//end fx rLfE
-
-
-void setDefaultLang(){
-    localeLang = "en";
-}//end fx sDl
 
 
 void printError(int retCode){
@@ -83,6 +36,8 @@ void printError(int retCode){
         case 5: cout << localeMessages["BADENV"] << endl;
                 break;
         case 6: cout << localeMessages["BADFILE"] << endl;
+                break;
+        case 7: cout << localeMessages["DOENGLISH"] << endl;
                 break;
     }
 }//end fx pE
@@ -101,19 +56,90 @@ void fillLocaleVector(string theFileToReadFrom){
     myFile.close();
 }//end fx fLv
 
-
-void loadLocaleMessages(){
-    int retFromEnv = readLocalFromEnv();
+/*
+int loadLocaleMessages(string envLang){
+    //int retFromEnv = readLocaleFromEnv();
+    /*
     string messageFileToLoad = "i18n/messages/setport.messages_" + localeLang + ".txt";
+    cout << "messageFileToLoad: " << messageFileToLoad << endl;
     ifstream myFile(messageFileToLoad);
     if (myFile) fillLocaleVector(messageFileToLoad);
     else{
         localeLang = "en";
         fillLocaleVector("i18n/messages/setport.messages_en.txt");
-        setDefaultLang();
         printError(ERR_BAD_FILE);
     }
+    * /
+    
+    
+    if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), envLang) == langCodesToSkip.end()) {
+        if(regex_search(envLang, myLangMatch, mySubEnvLangCode)){
+            string messageFileToLoadLanguage = messageFileToLoad + myLangMatch[1].str() + ".txt";
+            
+            ifstream myFile(messageFileToLoadLanguage);
+            if (myFile){
+                fillLocaleVector(messageFileToLoadLanguage);
+                localeLang = myLangMatch[1];
+                return 1;
+            }
+        }
+    }
+    return 0;
 }//end fx lLm
+*/
+
+
+int readLocaleFromEnv(){
+    vector <string> envVarsToCheck = {"LANGUAGE", "LC_ALL", "LC_MESSAGES", "LANG"};
+    regex mySubEnvLangCode ("(^[[:lower:]]{2}).*");
+    smatch myLangMatch;
+    bool foundValidLang = false;
+    string messageFileToLoad = "i18n/messages/setport.messages_";
+    string messageFileExt = ".txt";
+    
+    
+    for (int i=0; i < envVarsToCheck.size(); ++i ){
+        string envLang = getenv( envVarsToCheck.at(i).c_str() ) ?: "";
+        if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), envLang) == langCodesToSkip.end()) {
+            if(regex_search(envLang, myLangMatch, mySubEnvLangCode)){
+                foundValidLang = true;
+                string messageFileToLoadLanguage = messageFileToLoad + myLangMatch[1].str() + messageFileExt;
+                ifstream myFile(messageFileToLoadLanguage);
+                if (myFile){
+                    myFile.close();
+                    fillLocaleVector(messageFileToLoadLanguage);
+                    localeLang = myLangMatch[1];
+                    return 1;
+                }
+            }
+        }
+    }
+    /*
+    localeFromEnv = getenv() ?: "";
+    if (loadLocaleMessages(localeFromEnv)) return 1;
+    
+    localeFromEnv = getenv() ?: "";
+    if (loadLocaleMessages(localeFromEnv)) return 1;
+    
+    localeFromEnv = getenv() ?: "";
+    if (loadLocaleMessages(localeFromEnv)) return 1;
+    */
+    localeLang = "en";
+    string messageFileToLoadLanguage = messageFileToLoad + localeLang + messageFileExt;
+    fillLocaleVector(messageFileToLoadLanguage);
+    if (foundValidLang) printError(ERR_DO_ENG);
+    /*
+    localeFromEnv = getenv("ERICLANG") ?: "";
+    cout << "going for erics lang" << endl;
+    if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
+        if(regex_search(localeFromEnv, myLangMatch, mySubEnvLangCode))
+            localeLang = myLangMatch[1];// << endl; //localeFromEnv << endl; //myLangMatch[1] << endl;
+        return 1;
+    }
+    cout << "tests ended?" << endl;
+    */
+    return 0;
+}//end fx rLfE
 
 
 string giveLastLineOfFile(char* fileToPrint){
@@ -162,7 +188,7 @@ void version(){
 
 
 int main(int argc, char *args[]) {
-    loadLocaleMessages();
+    readLocaleFromEnv();
     const int MAXPORT = 65536;
     string theFlag = "";
     string thePortFlag ="";
