@@ -25,4 +25,3 @@ Código de salida:
     3: número de puerto no válido pasado.
     4: El indicador no válido pasado.
     5: inválido env var pasó.
-    

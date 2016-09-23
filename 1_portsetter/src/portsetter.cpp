@@ -56,54 +56,20 @@ void fillLocaleVector(string theFileToReadFrom){
     myFile.close();
 }//end fx fLv
 
-/*
-int loadLocaleMessages(string envLang){
-    //int retFromEnv = readLocaleFromEnv();
-    /*
-    string messageFileToLoad = "i18n/messages/setport.messages_" + localeLang + ".txt";
-    cout << "messageFileToLoad: " << messageFileToLoad << endl;
-    ifstream myFile(messageFileToLoad);
-    if (myFile) fillLocaleVector(messageFileToLoad);
-    else{
-        localeLang = "en";
-        fillLocaleVector("i18n/messages/setport.messages_en.txt");
-        printError(ERR_BAD_FILE);
-    }
-    * /
-    
-    
-    if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), envLang) == langCodesToSkip.end()) {
-        if(regex_search(envLang, myLangMatch, mySubEnvLangCode)){
-            string messageFileToLoadLanguage = messageFileToLoad + myLangMatch[1].str() + ".txt";
-            
-            ifstream myFile(messageFileToLoadLanguage);
-            if (myFile){
-                fillLocaleVector(messageFileToLoadLanguage);
-                localeLang = myLangMatch[1];
-                return 1;
-            }
-        }
-    }
-    return 0;
-}//end fx lLm
-*/
-
 
 int readLocaleFromEnv(){
+    string messageFileToLoad = "i18n/messages/setport.messages_";
     vector <string> envVarsToCheck = {"LANGUAGE", "LC_ALL", "LC_MESSAGES", "LANG"};
     regex mySubEnvLangCode ("(^[[:lower:]]{2}).*");
     smatch myLangMatch;
     bool foundValidLang = false;
-    string messageFileToLoad = "i18n/messages/setport.messages_";
-    string messageFileExt = ".txt";
-    
     
     for (int i=0; i < envVarsToCheck.size(); ++i ){
         string envLang = getenv( envVarsToCheck.at(i).c_str() ) ?: "";
         if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), envLang) == langCodesToSkip.end()) {
             if(regex_search(envLang, myLangMatch, mySubEnvLangCode)){
                 foundValidLang = true;
-                string messageFileToLoadLanguage = messageFileToLoad + myLangMatch[1].str() + messageFileExt;
+                string messageFileToLoadLanguage = messageFileToLoad + myLangMatch[1].str() + ".txt";
                 ifstream myFile(messageFileToLoadLanguage);
                 if (myFile){
                     myFile.close();
@@ -114,30 +80,10 @@ int readLocaleFromEnv(){
             }
         }
     }
-    /*
-    localeFromEnv = getenv() ?: "";
-    if (loadLocaleMessages(localeFromEnv)) return 1;
-    
-    localeFromEnv = getenv() ?: "";
-    if (loadLocaleMessages(localeFromEnv)) return 1;
-    
-    localeFromEnv = getenv() ?: "";
-    if (loadLocaleMessages(localeFromEnv)) return 1;
-    */
     localeLang = "en";
-    string messageFileToLoadLanguage = messageFileToLoad + localeLang + messageFileExt;
+    string messageFileToLoadLanguage = messageFileToLoad + localeLang + ".txt";
     fillLocaleVector(messageFileToLoadLanguage);
     if (foundValidLang) printError(ERR_DO_ENG);
-    /*
-    localeFromEnv = getenv("ERICLANG") ?: "";
-    cout << "going for erics lang" << endl;
-    if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), localeFromEnv) == langCodesToSkip.end()) {
-        if(regex_search(localeFromEnv, myLangMatch, mySubEnvLangCode))
-            localeLang = myLangMatch[1];// << endl; //localeFromEnv << endl; //myLangMatch[1] << endl;
-        return 1;
-    }
-    cout << "tests ended?" << endl;
-    */
     return 0;
 }//end fx rLfE
 
@@ -167,14 +113,14 @@ void printWholeFile(const char* fileToPrint){
 
 
 void usage(){
-    string theFileLoc = "i18n/usages/setport.usage_" + localeLang + ".txt";
-    printWholeFile(theFileLoc.c_str());
+    string usageFileToLoad = "i18n/usages/setport.usage_" + localeLang + ".txt";
+    printWholeFile(usageFileToLoad.c_str());
 }//end fx usage
 
 
 void about(){
-    string theFileLoc = "i18n/abouts/setport.about_" + localeLang + ".txt";
-    printWholeFile(theFileLoc.c_str());
+    string aboutFileToLoad = "i18n/abouts/setport.about_" + localeLang + ".txt";
+    printWholeFile(aboutFileToLoad.c_str());
 }//end fx about
 
 
