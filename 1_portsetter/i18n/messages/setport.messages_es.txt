@@ -4,4 +4,4 @@ NOPORT=pNúmero de puerto que faltan.
 BADPORT=número de puerto no válido pasó.
 BADFLAG=bandera no válido pasó.
 BADENV=inválida env var pasó.
-BADFILE=archivo de idioma que falta.
+DOENGLISH=no Idiomas especifican con archivos de idioma válidos. El uso de Inglés.

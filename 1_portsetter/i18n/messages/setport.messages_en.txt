@@ -1,8 +1,7 @@
-LISTENING=Listening on port
-TOOMANY=Too many arguments.
-NOPORT=PortNumber missing.
-BADPORT=Invalid port number passed.
-BADFLAG=Invalid flag passed.
-BADENV=Invalid env var passed.
-BADFILE=Missing language file. Continuing to next language specified.
-DOENGLISH=No languages specified with valid language files. Using English.
+LISTENING=listening on port
+TOOMANY=too many arguments.
+NOPORT=portNumber missing.
+BADPORT=invalid port number passed.
+BADFLAG=invalid flag passed.
+BADENV=invalid env var passed.
+DOENGLISH=no languages specified with valid language files. Using English.

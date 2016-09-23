@@ -7,6 +7,11 @@ This will run "make" for the setport command, as well as "make" for the testport
 It will set up setport as a command, runnable anywhere.
 It will also run all the tests in non-verbose mode.
 
+This program (setport) will check for the language to use in the env vars:
+    LANGUAGE, LC_ALL, LC_MESSAGES, LANG
+If no valid language and matching message file is found, language will default to english.
+Please check i18n/ for abouts/ messages/ and usages/ for needed language files.
+
 Subsequent runs of the setport command syntax is
     setport [FLAG] [PORTNUMBER]
 

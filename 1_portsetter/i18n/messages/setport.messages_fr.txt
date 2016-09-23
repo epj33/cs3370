@@ -4,4 +4,4 @@ NOPORT=le numéro de port manquant.
 BADPORT=numéro de port non valide passé
 BADFLAG=drapeau invalide passé.
 BADENV=variable d'environnement invalide passé.
-BADFILE=fichier de langue manquante.
+DOENGLISH=Aucun langues spécifiées avec les fichiers de langue valides. Utilisation de l'anglais.

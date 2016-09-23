@@ -16,7 +16,7 @@ use echo $? to show exit code.
 
 using namespace std;
 
-enum ReturnCodes {SUCCESS, ERR_TOO_MANY, ERR_NO_PORT, ERR_BAD_PORT, ERR_BAD_FLAG, ERR_BAD_ENV, ERR_BAD_FILE, ERR_DO_ENG};
+enum ReturnCodes {SUCCESS, ERR_TOO_MANY, ERR_NO_PORT, ERR_BAD_PORT, ERR_BAD_FLAG, ERR_BAD_ENV, ERR_DO_ENG};
 string localeLang = "en";
 map <string, string> localeMessages;
 vector <string> langCodesToSkip = {"", "C", "C.UTF-8"};
@@ -35,9 +35,7 @@ void printError(int retCode){
                 break;
         case 5: cout << localeMessages["BADENV"] << endl;
                 break;
-        case 6: cout << localeMessages["BADFILE"] << endl;
-                break;
-        case 7: cout << localeMessages["DOENGLISH"] << endl;
+        case 6: cout << localeMessages["DOENGLISH"] << endl;
                 break;
     }
 }//end fx pE
@@ -101,26 +99,34 @@ string giveLastLineOfFile(char* fileToPrint){
 }//end fx gLlOf
 
 
-void printWholeFile(const char* fileToPrint){
+int printWholeFile(const char* fileToPrint){
     string dataToOutput = "";
     ifstream myFile(fileToPrint);
+    if (!myFile) return 1;
     while (myFile){
         getline(myFile, dataToOutput);
         cout << dataToOutput << endl;
     }
     myFile.close();
+    return 0;
 }//end fx pF
 
 
 void usage(){
     string usageFileToLoad = "i18n/usages/setport.usage_" + localeLang + ".txt";
-    printWholeFile(usageFileToLoad.c_str());
+    if (printWholeFile(usageFileToLoad.c_str())){
+        printError(ERR_DO_ENG);
+        printWholeFile("i18n/usages/setport.usage_en.txt");
+    }
 }//end fx usage
 
 
 void about(){
     string aboutFileToLoad = "i18n/abouts/setport.about_" + localeLang + ".txt";
-    printWholeFile(aboutFileToLoad.c_str());
+    if (printWholeFile(aboutFileToLoad.c_str())){
+        printError(ERR_DO_ENG);
+        printWholeFile("i18n/abouts/setport.about_en.txt");
+    }
 }//end fx about
 
 
