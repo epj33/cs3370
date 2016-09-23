@@ -5,6 +5,7 @@ To run the first time please run on the linux terminal
     
 This will run "make" for the setport command, as well as "make" for the testport command.
 It will set up setport as a command, runnable anywhere.
+It will also run all the tests in non-verbose mode.
 
 Subsequent runs of the setport command syntax is
     setport [FLAG] [PORTNUMBER]
@@ -13,7 +14,7 @@ For example to listen on port 345:
     setport -p 345
     
 Subsequent runs of the testport command syntax is
-    testport [VERBOSITY]
+    bin/testport [VERBOSITY]
     
 For example to show verbose output:
-    testport 1
+    bin/testport 1
