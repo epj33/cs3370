@@ -90,17 +90,18 @@ int runHappyTests(int verbosity = 1){
         }
         cout << "happy test bin --port num passed." << endl;
         
-        system("export LANG=\"es\"");
-        int spanishSysReturn = system("setport -! > testEs.txt | echo >> testEs.txt")/256;
-        system("printf %s \"$(cat testEs.txt)\" > out.txt"); //removes all /ns
-        system("echo >> out.txt");
-        int spanishCmpReturn = system("cmp -s i18n/abouts/setport.about_es.txt out.txt")/256;
+        
+        int spanishSysReturn = system("setport -! > testEs1.txt | echo >> testEs1.txt")/256;
+        system("printf %s \"$(cat testEs1.txt)\" > out1.txt"); //removes all /ns
+        system("echo >> out1.txt");
+        int spanishCmpReturn = system("cmp -s i18n/abouts/setport.about_es.txt out1.txt")/256;
         if (spanishSysReturn != 0 || spanishCmpReturn != 0){
             cout << "happy test -! es failed." << endl;
             return 1;
         }
-        system("rm testEs.txt out.txt");
+        system("rm testEs1.txt out.txt");
         cout << "happy test -! es passed." << endl;
+        return 1;
 
 
     
@@ -124,7 +125,6 @@ int runHappyTests(int verbosity = 1){
         assert (system("setport --port -e > /dev/null")/256 == 0);
         assert (system("setport --port -e PORT > /dev/null")/256 == 0);
         
-        system("export LANG=\"es\"");
         int spanishSysReturn = system("setport -! > testEs.txt | echo >> testEs.txt")/256;
         system("printf %s \"$(cat testEs.txt)\" > out.txt"); //removes all /ns
         system("echo >> out.txt");
@@ -138,7 +138,6 @@ int runHappyTests(int verbosity = 1){
 }//end fx rHt
 
 int runSadTests(int verbosity = 1){
-    //return 1;
     if (verbosity){
         //verbose tests
         if (system("setport help")/256 != 4){
@@ -276,8 +275,6 @@ int runSadTests(int verbosity = 1){
         }
         cout << "sad test bin -P passed." << endl;
         
-        
-        system("export LANG=\"es\"");
         int spanishSysReturn = system("setport -! > testEs.txt | echo >> testEs.txt")/256;
         system("printf %s \"$(cat testEs.txt)\" > out.txt"); //removes all /ns
         system("echo >> out.txt");
@@ -321,10 +318,8 @@ int runSadTests(int verbosity = 1){
         assert (system("setport -x > /dev/null")/256 == 4);
         assert (system("setport -P > /dev/null")/256 == 4);
         
-        system("export LANG=\"es\"");
         int spanishSysReturn = system("setport -! > testEs.txt | echo >> testEs.txt")/256;
         system("printf %s \"$(cat testEs.txt)\" > out.txt"); //removes all /ns
-        //system("echo >> out.txt");
         int spanishCmpReturn = system("cmp -s i18n/abouts/setport.about_es.txt out.txt")/256;
         system("rm testEs.txt out.txt");
         assert (spanishCmpReturn == 1);

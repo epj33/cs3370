@@ -58,7 +58,7 @@ void fillLocaleVector(string theFileToReadFrom){
 int readLocaleFromEnv(){
     string messageFileToLoad = "i18n/messages/setport.messages_";
     vector <string> envVarsToCheck = {"LANGUAGE", "LC_ALL", "LC_MESSAGES", "LANG"};
-    regex mySubEnvLangCode ("(^[[:lower:]]{2}).*");
+    regex mySubEnvLangCode ("(^[[:lower:]]{2})(_[[:upper:]]{2})?(\\.UTF-8)?$");
     smatch myLangMatch;
     bool foundValidLang = false;
     

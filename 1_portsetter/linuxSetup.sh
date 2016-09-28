@@ -19,9 +19,11 @@
     echo $BUILD >> setport.build.txt
 } &> /dev/null
 
-
-
+MYLANG=${LANG}
+export LANG="es"
 bin/testport $1
+export LANG=$MYLANG
+
 if [[ $? -eq 0 ]]
 then
     echo "setport ready for use"
