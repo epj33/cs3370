@@ -42,7 +42,7 @@ $ listening on port 4040
 
 ## Environment variables
 
-This program (setport) will check for the language to use in the env vars:
+This program (setport) will check for the language to use in the env vars:  
 * LANGUAGE
 * LC_ALL
 * LC_MESSAGES
