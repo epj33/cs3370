@@ -11,7 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisities
 
-* A recent linux distro with g++11 or greater.
+* A recent linux distro with g++14 or greater.
 * A working knowledge of terminal commands.
 
 ### Installing
@@ -21,7 +21,7 @@ go to the install location.
 run the Linux Setup utility, called linuxSetup.sh
 
 ```
-./linuxSetup.sh
+$ ./linuxSetup.sh
 ```
 
 this will "make" the binary file, run the tests, and set up an alias for setport.
@@ -31,6 +31,7 @@ Output from running the above command will look like:
 all happy tests passed
 all sad tests passed
 setport ready for use
+$
 ```
 
 setport is now ready for use:
@@ -57,13 +58,6 @@ or
 $ ./linuxSetup.sh
 ```
 
-
-## Built With
-
-* Dropwizard - Bla bla bla
-* Maven - Maybe
-* Atom - ergaerga
-
 ## Contributing
 
 Only the author has permission to add to this project, while others may view it.
@@ -71,18 +65,10 @@ Only the author has permission to add to this project, while others may view it.
 
 ## Author
 
-* **Eric Jorgensen** 
-to learn more about Eric, please run:
+* **Eric Jorgensen** - to learn more about Eric, please run:
 ```
 $ setport -!
 ```
-
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 
