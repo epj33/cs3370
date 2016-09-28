@@ -40,6 +40,25 @@ $ setport -p 4040
 $ listening on port 4040
 ```
 
+## Environment variables
+
+This program (setport) will check for the language to use in the env vars:
+* LANGUAGE
+* LC_ALL
+* LC_MESSAGES
+* LANG
+
+If no valid language and matching message file is found, language will default to english.  
+Please check i18n/ for abouts/ messages/ and usages/ for needed language files.
+
+If run with the -e flag, setport will check the given env var for a valid port number.  
+PORT will be checked if no env var is given.
+```
+$ setport -p -e
+listening on port 8080
+$
+```
+
 ## Running the tests
 
 The tests can be run in verbose or non-verbose mode.  
