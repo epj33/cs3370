@@ -99,7 +99,7 @@ int runHappyTests(int verbosity = 1){
             cout << "happy test -! es failed." << endl;
             return 1;
         }
-        system("rm testEs1.txt out.txt");
+        system("rm testEs1.txt out1.txt");
         cout << "happy test -! es passed." << endl;
         return 1;
 
