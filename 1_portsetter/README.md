@@ -37,7 +37,7 @@ $
 setport is now ready for use:
 ```
 $ setport -p 4040
-$ listening on port 4040
+listening on port 4040
 ```
 
 ## Environment variables
