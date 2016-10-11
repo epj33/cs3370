@@ -1,6 +1,7 @@
 #setport by Eric Jorgensen
 
 This is program 1 (with change orders applied) for cs3370 fall 2016.  
+To get to my cloud9 page, please go to [cloud9-epj33-cs3370].  
 This program sets the port (as of co4, just a cout) based on combinations of cmd line params and env vars.  
 Tests are included.  
 This program currently works in **linux only**.
@@ -9,7 +10,7 @@ This program currently works in **linux only**.
 
 These instructions will get you a copy of the project up and running.
 
-### Prerequisities
+### Prerequisites
 
 * A recent linux distro with g++14 or greater.
 * A working knowledge of terminal commands.
@@ -37,7 +38,8 @@ $
 setport is now ready for use:
 ```
 $ setport -p 4040
-$ listening on port 4040
+listening on port 4040
+$
 ```
 
 ## Environment variables
@@ -95,3 +97,5 @@ $ setport -!
 * Jerry Woolf, creator of the whiteboard marker.
 * Eric Michelman, creator of the middle-mouse button scroll wheel.
 * UBC Pharmaceutical Company, creator of Zyrtec.
+
+[cloud9-epj33-cs3370]: https://ide.c9.io/epj33/cs3370
