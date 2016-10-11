@@ -20,6 +20,7 @@ enum ReturnCodes {SUCCESS, ERR_TOO_MANY, ERR_NO_PORT, ERR_BAD_PORT, ERR_BAD_FLAG
 string localeLang = "en";
 map <string, string> localeMessages;
 vector <string> langCodesToSkip = {"", "C", "C.UTF-8"};
+string fullPath;
 
 
 
@@ -56,14 +57,14 @@ void fillLocaleVector(string theFileToReadFrom){
 
 
 int readLocaleFromEnv(){
-    string messageFileToLoad = "i18n/messages/setport.messages_";
+    string messageFileToLoad = fullPath + "i18n/messages/setport.messages_";
     vector <string> envVarsToCheck = {"LANGUAGE", "LC_ALL", "LC_MESSAGES", "LANG"};
     regex mySubEnvLangCode ("(^[[:lower:]]{2})(_[[:upper:]]{2})?(\\.UTF-8)?$");
     smatch myLangMatch;
     bool foundValidLang = false;
     
-    for (int i=0; i < envVarsToCheck.size(); ++i ){
-        string envLang = getenv( envVarsToCheck.at(i).c_str() ) ?: "";
+    for (auto envVarToCheck : envVarsToCheck){
+        string envLang = getenv( envVarToCheck.c_str() ) ?: "";
         if(std::find(langCodesToSkip.begin(), langCodesToSkip.end(), envLang) == langCodesToSkip.end()) {
             if(regex_search(envLang, myLangMatch, mySubEnvLangCode)){
                 foundValidLang = true;
@@ -86,7 +87,7 @@ int readLocaleFromEnv(){
 }//end fx rLfE
 
 
-string giveLastLineOfFile(char* fileToPrint){
+string giveLastLineOfFile(string fileToPrint){
     string tempDataToOutput;
     string finalDataToOuput;
     ifstream myFile(fileToPrint);
@@ -113,33 +114,36 @@ int printWholeFile(const char* fileToPrint){
 
 
 void usage(){
-    string usageFileToLoad = "i18n/usages/setport.usage_" + localeLang + ".txt";
+    string usageFileToLoad = fullPath + "i18n/usages/setport.usage_" + localeLang + ".txt";
     if (printWholeFile(usageFileToLoad.c_str())){
         printError(ERR_DO_ENG);
-        printWholeFile("i18n/usages/setport.usage_en.txt");
+        usageFileToLoad = fullPath + "i18n/usages/setport.usage_en.txt";
+        printWholeFile(usageFileToLoad.c_str());
     }
 }//end fx usage
 
 
 void about(){
-    string aboutFileToLoad = "i18n/abouts/setport.about_" + localeLang + ".txt";
+    string aboutFileToLoad = fullPath + "i18n/abouts/setport.about_" + localeLang + ".txt";
     if (printWholeFile(aboutFileToLoad.c_str())){
         printError(ERR_DO_ENG);
-        printWholeFile("i18n/abouts/setport.about_en.txt");
+        aboutFileToLoad = fullPath + "i18n/abouts/setport.about_en.txt";
+        printWholeFile(aboutFileToLoad.c_str());
     }
 }//end fx about
 
 
 void version(){
-    char myVersion[] = "setport.version.txt";
-    string myVers = giveLastLineOfFile(myVersion);
-    char myBuild[] = "setport.build.txt";
+    string myVersion = fullPath + "setport.version.txt";
+    string myVers = giveLastLineOfFile(myVersion.c_str());
+    string myBuild = fullPath + "setport.build.txt";
     string myBld = giveLastLineOfFile(myBuild);
     cout << myVers << "." << myBld << endl;
 }//end fx version
 
 
 int main(int argc, char *args[]) {
+    fullPath =  (string)__MYFILE__ + "/";
     readLocaleFromEnv();
     const int MAXPORT = 65536;
     string theFlag = "";
