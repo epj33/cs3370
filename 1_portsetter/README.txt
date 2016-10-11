@@ -1,3 +1,5 @@
+email to jorgensen.eric@gmail.com for questions/comments.
+
 This program may be run in linux currently
 
 To run the first time please run on the linux terminal

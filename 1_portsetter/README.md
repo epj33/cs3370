@@ -1,4 +1,5 @@
-#setport by Eric Jorgensen
+# setport by Eric Jorgensen  
+jorgensen.eric@gmail.com
 
 This is program 1 (with change orders applied) for cs3370 fall 2016.  
 To get to my cloud9 page, please go to [cloud9-epj33-cs3370].  
