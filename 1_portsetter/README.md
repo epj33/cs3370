@@ -18,9 +18,22 @@ These instructions will get you a copy of the project up and running.
 
 ### Installing
 
-unzip the deleverable to the desired location.  
-go to the install location.  
-run the Linux Setup utility, called linuxSetup.sh
+Unzip the deliverable to the desired location.  
+Go to the install location.  
+Check/set the permissions on the Linux Setup utility, called linuxSetup.sh  
+```
+$ ls -l linuxSetup.sh
+-rw-r--r-- 1 ubuntu ubuntu 538 Oct 11 22:42 linuxSetup.sh
+```
+
+if needed, add execute permissions to linuxSetup.sh  
+```
+$ chmod +x linuxSetup.sh                                                                      
+$ ls -l linuxSetup.sh 
+-rwxr-xr-x 1 ubuntu ubuntu 538 Oct 11 22:42 linuxSetup.sh*
+```
+
+Then run linuxSetup.sh
 
 ```
 $ ./linuxSetup.sh
